@@ -7,10 +7,12 @@
 @layer base {
   html {
     color-scheme: dark;
+    overflow-x: hidden;
   }
 
   body {
     @apply min-h-screen text-slate-100 antialiased;
+    overflow-x: hidden;
     background:
       radial-gradient(circle at top left, rgba(59, 130, 246, 0.28), transparent 28%),
       radial-gradient(circle at top right, rgba(168, 85, 247, 0.24), transparent 24%),

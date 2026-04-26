@@ -87,9 +87,9 @@ export default function App() {
   }
 
   return (
-    <main className="min-h-screen bg-[#020617] px-4 py-4 text-slate-100 sm:px-6 lg:px-8 lg:py-5">
-      <div className="mx-auto flex min-h-[calc(100vh-2rem)] max-w-[1400px] items-start lg:items-center">
-        <section className="w-full rounded-2xl border border-blue-500/20 bg-gradient-to-br from-slate-950 via-slate-950 to-slate-900 shadow-[0_28px_90px_rgba(0,0,0,0.55)]">
+    <main className="min-h-screen overflow-x-hidden bg-[#020617] px-4 py-6 text-slate-100 sm:px-6 lg:px-8 lg:py-8">
+      <div className="mx-auto w-full max-w-7xl">
+        <section className="w-full min-w-0 rounded-2xl border border-blue-500/20 bg-gradient-to-br from-slate-950 via-slate-950 to-slate-900 shadow-[0_28px_90px_rgba(0,0,0,0.55)]">
           <div className="rounded-2xl border border-violet-500/10 bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.10),transparent_28%),radial-gradient(circle_at_top_right,rgba(168,85,247,0.10),transparent_26%)] p-4 sm:p-5 lg:p-6">
             <header className="mb-4 flex flex-col gap-4 border-b border-white/8 pb-4 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-center gap-3">
@@ -105,17 +105,17 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="inline-flex w-fit items-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1.5 text-xs font-medium text-emerald-100 shadow-sm shadow-emerald-950/25">
+              <div className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1.5 text-xs font-medium text-emerald-100 shadow-sm shadow-emerald-950/25 sm:w-fit">
                 <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_14px_rgba(74,222,128,0.9)]" />
                 Qwen2.5-Coder-7B-Instruct
               </div>
             </header>
 
-            <div className="grid gap-4 lg:grid-cols-[0.35fr_0.65fr]">
-              <aside className="rounded-2xl border border-white/10 bg-white/5 p-5 shadow-xl shadow-black/20 backdrop-blur-xl">
-                <div className="flex h-full flex-col gap-4">
+            <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+              <aside className="min-w-0 rounded-2xl border border-white/10 bg-white/5 p-5 shadow-xl shadow-black/20 backdrop-blur-xl">
+                <div className="flex flex-col gap-4">
                   <div>
-                    <h2 className="text-4xl font-semibold leading-[0.95] tracking-tight text-white sm:text-5xl lg:text-6xl">
+                    <h2 className="text-3xl font-semibold leading-[0.95] tracking-tight text-white sm:text-4xl lg:text-6xl">
                       AI Code
                       <span className="block bg-gradient-to-r from-sky-300 via-violet-300 to-fuchsia-300 bg-clip-text text-transparent">
                         Reviewer
@@ -126,7 +126,7 @@ export default function App() {
                     </p>
                   </div>
 
-                  <div className="space-y-3">
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-1">
                     {features.map((feature) => (
                       <div key={feature.title} className="flex items-center gap-3 rounded-2xl border border-white/8 bg-slate-950/35 p-3 transition duration-200 hover:-translate-y-0.5 hover:border-white/12 hover:bg-white/6 hover:shadow-lg hover:shadow-black/20">
                         <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-gradient-to-br ${feature.tone} text-white shadow-lg shadow-black/10`}>
@@ -140,7 +140,7 @@ export default function App() {
                     ))}
                   </div>
 
-                  <div className="mt-auto rounded-2xl border border-sky-400/15 bg-slate-950/45 p-4 shadow-inner shadow-black/20 transition duration-200 hover:border-sky-400/25 hover:bg-slate-950/55 hover:shadow-lg hover:shadow-sky-950/20">
+                  <div className="mt-1 rounded-2xl border border-sky-400/15 bg-slate-950/45 p-4 shadow-inner shadow-black/20 transition duration-200 hover:border-sky-400/25 hover:bg-slate-950/55 hover:shadow-lg hover:shadow-sky-950/20 lg:mt-auto">
                     <div className="mb-3 flex items-center justify-between">
                       <h3 className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">Project Info</h3>
                       <span className="h-2 w-2 rounded-full bg-sky-400 shadow-[0_0_14px_rgba(56,189,248,0.85)]" />
@@ -163,16 +163,16 @@ export default function App() {
                 </div>
               </aside>
 
-              <div className="space-y-4">
-                <section className="rounded-2xl border border-white/10 bg-white/5 p-5 shadow-xl shadow-black/20 backdrop-blur-xl transition duration-200 hover:-translate-y-0.5 hover:border-white/15 hover:bg-white/6 hover:shadow-2xl hover:shadow-black/30">
-                  <div className="mb-4 flex items-start justify-between gap-3">
+              <div className="min-w-0 space-y-4">
+                <section className="w-full min-w-0 rounded-2xl border border-white/10 bg-white/5 p-5 shadow-xl shadow-black/20 backdrop-blur-xl transition duration-200 hover:-translate-y-0.5 hover:border-white/15 hover:bg-white/6 hover:shadow-2xl hover:shadow-black/30">
+                  <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                     <div>
                       <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">Code Editor</p>
                     </div>
                     <select
                       value={language}
                       onChange={(event) => setLanguage(event.target.value)}
-                      className="rounded-full border border-white/10 bg-slate-950/55 px-3 py-1 text-xs font-medium text-slate-200 outline-none transition duration-200 hover:border-white/20 focus:border-sky-400/50"
+                      className="w-full rounded-full border border-white/10 bg-slate-950/55 px-3 py-2 text-xs font-medium text-slate-200 outline-none transition duration-200 hover:border-white/20 focus:border-sky-400/50 sm:w-auto sm:py-1"
                     >
                       {languageOptions.map((option) => (
                         <option key={option} value={option} className="bg-slate-950 text-slate-100">
@@ -189,11 +189,11 @@ export default function App() {
                     onChange={(event) => setCode(event.target.value)}
                     placeholder={editorPlaceholder}
                     spellCheck="false"
-                    className="min-h-[26rem] w-full resize-none rounded-2xl border border-slate-700/70 bg-[#0a1020] p-4 font-mono text-sm leading-7 text-slate-100 outline-none placeholder:text-slate-500 transition duration-200 focus:border-sky-400/50 focus:ring-4 focus:ring-sky-500/10"
+                    className="min-h-[18rem] w-full resize-none rounded-2xl border border-slate-700/70 bg-[#0a1020] p-4 font-mono text-sm leading-7 text-slate-100 outline-none placeholder:text-slate-500 transition duration-200 focus:border-sky-400/50 focus:ring-4 focus:ring-sky-500/10 sm:min-h-[22rem] lg:min-h-[26rem]"
                   />
 
-                  <div className="mt-4 flex items-center justify-between gap-4 text-sm text-slate-400">
-                    <div className="flex items-center gap-2">
+                  <div className="mt-4 flex flex-col gap-2 text-sm text-slate-400 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+                    <div className="flex min-w-0 items-center gap-2">
                       <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(74,222,128,0.8)]" />
                       <span>{loading ? 'Review in progress...' : 'Ready to review your code'}</span>
                     </div>
@@ -211,8 +211,8 @@ export default function App() {
                   </button>
                 </section>
 
-                <section className="rounded-2xl border border-white/10 bg-white/5 p-5 shadow-xl shadow-black/20 backdrop-blur-xl transition duration-200 hover:-translate-y-0.5 hover:border-white/15 hover:bg-white/6 hover:shadow-2xl hover:shadow-black/30">
-                  <div className="mb-4 flex items-center justify-between gap-3">
+                <section className="w-full min-w-0 rounded-2xl border border-white/10 bg-white/5 p-5 shadow-xl shadow-black/20 backdrop-blur-xl transition duration-200 hover:-translate-y-0.5 hover:border-white/15 hover:bg-white/6 hover:shadow-2xl hover:shadow-black/30">
+                  <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex items-center gap-2">
                       <span className="flex h-8 w-8 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-violet-200">
                         <SparkleIcon />
@@ -232,7 +232,7 @@ export default function App() {
                     </button>
                   </div>
 
-                  <div className="max-h-[24rem] overflow-y-auto rounded-2xl border border-white/10 bg-[#080d1a] p-4">
+                  <div className="max-h-[24rem] overflow-y-auto rounded-2xl border border-white/10 bg-[#080d1a] p-4 sm:max-h-[26rem]">
                     {error ? <p className="text-sm font-medium text-rose-300">{error}</p> : null}
 
                     {!error && !review ? (
@@ -290,7 +290,7 @@ function SparkleIcon({ className = 'h-4 w-4' }) {
 
 function ReviewSectionCard({ title, body }) {
   return (
-    <section className="rounded-2xl border border-white/10 bg-white/5 p-4 shadow-[0_12px_30px_rgba(0,0,0,0.18)] transition duration-200 hover:-translate-y-0.5 hover:border-white/15 hover:bg-white/6 hover:shadow-[0_16px_36px_rgba(0,0,0,0.24)] animate-[fadeIn_240ms_ease-out]">
+    <section className="w-full min-w-0 rounded-2xl border border-white/10 bg-white/5 p-4 shadow-[0_12px_30px_rgba(0,0,0,0.18)] transition duration-200 hover:-translate-y-0.5 hover:border-white/15 hover:bg-white/6 hover:shadow-[0_16px_36px_rgba(0,0,0,0.24)] animate-[fadeIn_240ms_ease-out]">
       <h3 className="text-base font-semibold tracking-tight text-white sm:text-lg">{title}</h3>
 
       {body.trim() ? (
