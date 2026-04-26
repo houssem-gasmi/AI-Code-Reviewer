@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "ui-sans-serif", "system-ui";
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply min-h-screen text-slate-100 antialiased;
+    background:
+      radial-gradient(circle at top left, rgba(59, 130, 246, 0.28), transparent 28%),
+      radial-gradient(circle at top right, rgba(168, 85, 247, 0.24), transparent 24%),
+      radial-gradient(circle at bottom, rgba(14, 165, 233, 0.16), transparent 26%),
+      linear-gradient(135deg, #040816 0%, #09111f 45%, #120d24 100%);
+  }
+
+  button,
+  textarea {
+    font: inherit;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply rounded-xl border border-white/10 bg-white/5 shadow-2xl backdrop-blur-xl;
+  }
+
+  .section-title {
+    @apply text-sm font-semibold uppercase tracking-[0.24em] text-slate-300/80;
+  }
+
+  .section-card {
+    @apply rounded-xl border border-white/10 bg-slate-950/35 p-4 shadow-lg;
+  }
+}
