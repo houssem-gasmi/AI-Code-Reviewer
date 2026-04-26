@@ -61,16 +61,16 @@ app.post('/api/review', async (req, res) => {
       },
       body: JSON.stringify({
         model: 'Qwen/Qwen2.5-Coder-7B-Instruct:fastest',
-       messages: [
-  {
-    role: 'system',
-    content: 'You are a Principal Engineer and expert code reviewer. Be strict, precise, and production-focused.'
-  },
-  {
-    role: 'user',
-    content: prompt
-  }
-],
+        messages: [
+          {
+            role: 'system',
+            content: 'You are a Principal Engineer and expert code reviewer. Be strict, precise, and production-focused.'
+          },
+          {
+            role: 'user',
+            content: prompt
+          }
+        ],
         max_tokens: 700,
         temperature: 0.2,
         stream: false
