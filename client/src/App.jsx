@@ -1,42 +1,136 @@
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import logo from '../assets/logo.png';
+
+const translations = {
+  tn: {
+    review: 'raja3 el code',
+    paste: 'hot el code mteek hne',
+    ready: 'wajeh bash nraja3ou el code',
+    clear: 'na7i el review',
+    project: 'ma3loumet el project',
+    editor: 'code editor',
+    aiReview: 'review mta3 el AI',
+    loading: 'Codini tawa yraje3',
+    codeCountSuffix: '7rouf',
+    emptyTitle: 'el review mta3 el code bch yodhhor hne',
+    emptyBody: 'hot el code mteek fou9 w a3mel raja3 el code bash tebda.',
+    headerSubtitle: 'powered by Hugging Face',
+    heroTitleTop: 'Codini',
+    heroTitleBottom: 'review mta3 el code',
+    heroDescription: 'hot el code fel editor w Codini bch y3tik review kamel.',
+    feature1Title: 'nla9aw el ghaltat',
+    feature1Description: 'nchoufou el mouchklet w el comportement el ghalet 9bal ma ykharjou.',
+    feature2Title: 'nchoufou el security',
+    feature2Description: 'nwarriw el patterns el 5aybin, el validation el na9sa, w el input el risk.',
+    feature3Title: 'ta7sinat',
+    feature3Description: 'na3tiw a9tira7at 3amliya باش el code ywalli أنظف w asra3 w a9ra.',
+    projectModel: 'model mta3 AI',
+    projectProvider: 'provider',
+    projectBackend: 'backend',
+    projectFrontend: 'frontend',
+    sectionCorrectness: 'nla9aw el ghaltat',
+    sectionSecurity: 'nchoufou el security',
+    sectionPerformance: 'performance',
+    sectionImprovements: 'ta7sinat',
+    sectionSuggestedFix: 'el solution el m9tara7a',
+    sectionSummary: 'kholasa',
+    noDetails: 'ma famch tafasil 3la el jzou hedha.',
+    languageLabel: 'UI language'
+  },
+  en: {
+    review: 'Review Code',
+    paste: 'Paste your code here',
+    ready: 'Ready to review your code',
+    clear: 'Clear Review',
+    project: 'Project Info',
+    editor: 'Code Editor',
+    aiReview: 'AI Review',
+    loading: 'Codini is reviewing',
+    codeCountSuffix: 'characters',
+    emptyTitle: 'Your AI review will appear here',
+    emptyBody: 'Paste your code above and click Review Code to get started.',
+    headerSubtitle: 'powered by Hugging Face',
+    heroTitleTop: 'Codini',
+    heroTitleBottom: 'review code',
+    heroDescription: 'Paste code into the editor, send it to Codini, and get a structured review.',
+    feature1Title: 'Find Bugs',
+    feature1Description: 'Spot logic mistakes and broken behavior before they ship.',
+    feature2Title: 'Security Check',
+    feature2Description: 'Highlight unsafe patterns, validation gaps, and risky input handling.',
+    feature3Title: 'Improvements',
+    feature3Description: 'Get practical suggestions for cleaner, faster, and easier-to-read code.',
+    projectModel: 'AI Model',
+    projectProvider: 'Provider',
+    projectBackend: 'Backend',
+    projectFrontend: 'Frontend',
+    sectionCorrectness: 'Bugs',
+    sectionSecurity: 'Security',
+    sectionPerformance: 'Performance',
+    sectionImprovements: 'Improvements',
+    sectionSuggestedFix: 'Suggested Fix',
+    sectionSummary: 'Summary',
+    noDetails: 'No details were provided for this section.',
+    languageLabel: 'UI language'
+  },
+  fr: {
+    review: 'Analyser le code',
+    paste: 'Collez votre code ici',
+    ready: 'Prêt à analyser votre code',
+    clear: 'Effacer le résultat',
+    project: 'Infos du projet',
+    editor: 'Éditeur de code',
+    aiReview: 'Analyse IA',
+    loading: 'Codini analyse',
+    codeCountSuffix: 'caractères',
+    emptyTitle: 'Votre analyse IA apparaîtra ici',
+    emptyBody: 'Collez votre code ci-dessus et cliquez sur Analyser le code pour commencer.',
+    headerSubtitle: 'powered by Hugging Face',
+    heroTitleTop: 'Codini',
+    heroTitleBottom: 'analyse du code',
+    heroDescription: 'Collez votre code dans l’éditeur, envoyez-le à Codini, puis obtenez une analyse structurée.',
+    feature1Title: 'Trouver les bugs',
+    feature1Description: 'Repérez les erreurs logiques et les comportements cassés avant la mise en production.',
+    feature2Title: 'Contrôle sécurité',
+    feature2Description: 'Mettez en avant les schémas dangereux, les validations manquantes et les entrées à risque.',
+    feature3Title: 'Améliorations',
+    feature3Description: 'Obtenez des suggestions concrètes pour un code plus propre, plus rapide et plus lisible.',
+    projectModel: 'Modèle IA',
+    projectProvider: 'Fournisseur',
+    projectBackend: 'Backend',
+    projectFrontend: 'Frontend',
+    sectionCorrectness: 'Bugs',
+    sectionSecurity: 'Sécurité',
+    sectionPerformance: 'Performance',
+    sectionImprovements: 'Améliorations',
+    sectionSuggestedFix: 'Correctif suggéré',
+    sectionSummary: 'Résumé',
+    noDetails: 'Aucun détail pour cette section.',
+    languageLabel: 'Langue UI'
+  }
+};
 
 const features = [
-  {
-    title: 'Find Bugs',
-    description: 'Spot logic mistakes and broken behavior before they ship.',
-    tone: 'from-cyan-400/25 to-sky-500/25',
-    icon: (
-      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.9">
-        <path d="M9 10a3 3 0 0 1 6 0v3.5a3 3 0 1 1-6 0V10Z" />
-        <path d="M8 8 6.5 6.5M16 8l1.5-1.5M12 4V2M4 13h2M18 13h2M7 18l-1.5 1.5M17 18l1.5 1.5" />
-      </svg>
-    )
-  },
-  {
-    title: 'Security Check',
-    description: 'Highlight unsafe patterns, validation gaps, and risky input handling.',
-    tone: 'from-emerald-400/25 to-cyan-500/25',
-    icon: (
-      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.9">
-        <path d="M12 3 4 6v6c0 5 3.2 8.8 8 11 4.8-2.2 8-6 8-11V6l-8-3Z" />
-        <path d="M12 9v4" />
-        <path d="M12 16h.01" />
-      </svg>
-    )
-  },
-  {
-    title: 'Improvements',
-    description: 'Get practical suggestions for cleaner, faster, and easier-to-read code.',
-    tone: 'from-violet-400/25 to-fuchsia-500/25',
-    icon: (
-      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.9">
-        <path d="M12 3v18" />
-        <path d="M5 10l7-7 7 7" />
-      </svg>
-    )
-  }
+  { titleKey: 'feature1Title', descriptionKey: 'feature1Description', tone: 'from-cyan-400/25 to-sky-500/25', icon: (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.9">
+      <path d="M9 10a3 3 0 0 1 6 0v3.5a3 3 0 1 1-6 0V10Z" />
+      <path d="M8 8 6.5 6.5M16 8l1.5-1.5M12 4V2M4 13h2M18 13h2M7 18l-1.5 1.5M17 18l1.5 1.5" />
+    </svg>
+  ) },
+  { titleKey: 'feature2Title', descriptionKey: 'feature2Description', tone: 'from-emerald-400/25 to-cyan-500/25', icon: (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.9">
+      <path d="M12 3 4 6v6c0 5 3.2 8.8 8 11 4.8-2.2 8-6 8-11V6l-8-3Z" />
+      <path d="M12 9v4" />
+      <path d="M12 16h.01" />
+    </svg>
+  ) },
+  { titleKey: 'feature3Title', descriptionKey: 'feature3Description', tone: 'from-violet-400/25 to-fuchsia-500/25', icon: (
+    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.9">
+      <path d="M12 3v18" />
+      <path d="M5 10l7-7 7 7" />
+    </svg>
+  ) }
 ];
 
 const languageOptions = ['JavaScript', 'Python', 'HTML/CSS', 'Java', 'C++'];
@@ -53,10 +147,12 @@ const sectionDefinitions = [
 export default function App() {
   const [code, setCode] = useState('function add(a, b) {\n  return a + b;\n}');
   const [language, setLanguage] = useState('JavaScript');
+  const [uiLang, setUiLang] = useState('tn');
   const [review, setReview] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const parsedSections = parseSections(review);
+  const t = translations[uiLang] || translations.en;
 
   async function handleReview() {
     setLoading(true);
@@ -69,13 +165,13 @@ export default function App() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ code, language })
+        body: JSON.stringify({ code, language, uiLang })
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to review code.');
+        throw new Error(data.error || 'ma njaamch nraja3ou el code tawa.');
       }
 
       setReview(data.review);
@@ -93,21 +189,34 @@ export default function App() {
           <div className="rounded-2xl border border-violet-500/10 bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.10),transparent_28%),radial-gradient(circle_at_top_right,rgba(168,85,247,0.10),transparent_26%)] p-4 sm:p-5 lg:p-6">
             <header className="mb-4 flex flex-col gap-4 border-b border-white/8 pb-4 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-sky-400/25 bg-sky-400/10 text-sky-200 shadow-[0_0_28px_rgba(59,130,246,0.18)]">
-                  <CodeIcon />
+                <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-sky-400/35 bg-sky-400/15 shadow-[0_0_32px_rgba(59,130,246,0.22)] sm:h-18 sm:w-18">
+                  <img src={logo} alt="Codini logo" className="h-12 w-12 object-contain" />
                 </div>
                 <div>
                   <div className="flex items-center gap-3">
-                    <h1 className="text-lg font-semibold tracking-tight text-white sm:text-xl">AI Code Reviewer</h1>
+                    <h1 className="text-lg font-semibold tracking-tight text-white sm:text-xl">Codini</h1>
                     <span className="hidden h-1 w-1 rounded-full bg-slate-500 sm:inline-block" />
-                    <p className="text-xs font-medium text-slate-400 sm:text-sm">Powered by Hugging Face</p>
+                    <p className="text-xs font-medium text-slate-400 sm:text-sm">{t.headerSubtitle}</p>
                   </div>
                 </div>
               </div>
 
-              <div className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1.5 text-xs font-medium text-emerald-100 shadow-sm shadow-emerald-950/25 sm:w-fit">
-                <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_14px_rgba(74,222,128,0.9)]" />
-                Qwen2.5-Coder-7B-Instruct
+              <div className="flex w-full flex-col gap-3 sm:w-fit sm:flex-row sm:items-center">
+                <div className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-emerald-400/20 bg-emerald-400/10 px-3 py-1.5 text-xs font-medium text-emerald-100 shadow-sm shadow-emerald-950/25 sm:w-fit">
+                  <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_14px_rgba(74,222,128,0.9)]" />
+                  Qwen2.5-Coder-7B-Instruct
+                </div>
+
+                <select
+                  value={uiLang}
+                  onChange={(event) => setUiLang(event.target.value)}
+                  aria-label={t.languageLabel}
+                  className="w-full rounded-full border border-white/10 bg-slate-950/55 px-3 py-2 text-xs font-medium text-slate-200 outline-none transition duration-200 hover:border-white/20 focus:border-sky-400/50 sm:w-auto"
+                >
+                  <option value="tn">TN</option>
+                  <option value="en">EN</option>
+                  <option value="fr">FR</option>
+                </select>
               </div>
             </header>
 
@@ -116,25 +225,23 @@ export default function App() {
                 <div className="flex flex-col gap-4">
                   <div>
                     <h2 className="text-3xl font-semibold leading-[0.95] tracking-tight text-white sm:text-4xl lg:text-6xl">
-                      AI Code
-                      <span className="block bg-gradient-to-r from-sky-300 via-violet-300 to-fuchsia-300 bg-clip-text text-transparent">
-                        Reviewer
-                      </span>
+                      <span>{t.heroTitleTop}</span>
+                      <span className="block bg-gradient-to-r from-sky-300 via-violet-300 to-fuchsia-300 bg-clip-text text-transparent">{t.heroTitleBottom}</span>
                     </h2>
                     <p className="mt-4 max-w-sm text-sm leading-7 text-slate-300">
-                      Paste code into the editor, send it to Hugging Face, and get a structured review with bugs, security notes, and improvement ideas.
+                      {t.heroDescription}
                     </p>
                   </div>
 
                   <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-1">
                     {features.map((feature) => (
-                      <div key={feature.title} className="flex items-center gap-3 rounded-2xl border border-white/8 bg-slate-950/35 p-3 transition duration-200 hover:-translate-y-0.5 hover:border-white/12 hover:bg-white/6 hover:shadow-lg hover:shadow-black/20">
+                      <div key={feature.titleKey} className="flex items-center gap-3 rounded-2xl border border-white/8 bg-slate-950/35 p-3 transition duration-200 hover:-translate-y-0.5 hover:border-white/12 hover:bg-white/6 hover:shadow-lg hover:shadow-black/20">
                         <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-gradient-to-br ${feature.tone} text-white shadow-lg shadow-black/10`}>
                           {feature.icon}
                         </div>
                         <div>
-                          <p className="text-sm font-semibold text-white">{feature.title}</p>
-                          <p className="mt-1 text-sm leading-6 text-slate-400">{feature.description}</p>
+                          <p className="text-sm font-semibold text-white">{t[feature.titleKey]}</p>
+                          <p className="mt-1 text-sm leading-6 text-slate-400">{t[feature.descriptionKey]}</p>
                         </div>
                       </div>
                     ))}
@@ -142,16 +249,16 @@ export default function App() {
 
                   <div className="mt-1 rounded-2xl border border-sky-400/15 bg-slate-950/45 p-4 shadow-inner shadow-black/20 transition duration-200 hover:border-sky-400/25 hover:bg-slate-950/55 hover:shadow-lg hover:shadow-sky-950/20 lg:mt-auto">
                     <div className="mb-3 flex items-center justify-between">
-                      <h3 className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">Project Info</h3>
+                      <h3 className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">{t.project}</h3>
                       <span className="h-2 w-2 rounded-full bg-sky-400 shadow-[0_0_14px_rgba(56,189,248,0.85)]" />
                     </div>
 
                     <div className="space-y-3">
                       {[
-                        ['AI Model', 'Qwen2.5-Coder-7B-Instruct'],
-                        ['Provider', 'Hugging Face'],
-                        ['Backend', 'Node.js + Express'],
-                        ['Frontend', 'React + Vite']
+                        [t.projectModel, 'Qwen2.5-Coder-7B-Instruct'],
+                        [t.projectProvider, 'Hugging Face'],
+                        [t.projectBackend, 'Node.js + Express'],
+                        [t.projectFrontend, 'React + Vite']
                       ].map(([label, value]) => (
                         <div key={label} className="flex items-center justify-between gap-4 rounded-xl border border-white/8 bg-white/5 px-3 py-2.5">
                           <span className="text-xs font-medium uppercase tracking-[0.18em] text-slate-400">{label}</span>
@@ -167,7 +274,7 @@ export default function App() {
                 <section className="w-full min-w-0 rounded-2xl border border-white/10 bg-white/5 p-5 shadow-xl shadow-black/20 backdrop-blur-xl transition duration-200 hover:-translate-y-0.5 hover:border-white/15 hover:bg-white/6 hover:shadow-2xl hover:shadow-black/30">
                   <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                     <div>
-                      <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">Code Editor</p>
+                      <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">{t.editor}</p>
                     </div>
                     <select
                       value={language}
@@ -182,12 +289,12 @@ export default function App() {
                     </select>
                   </div>
 
-                  <label className="sr-only" htmlFor="code-input">Code to review</label>
+                  <label className="sr-only" htmlFor="code-input">{t.editor}</label>
                   <textarea
                     id="code-input"
                     value={code}
                     onChange={(event) => setCode(event.target.value)}
-                    placeholder={editorPlaceholder}
+                    placeholder={t.paste}
                     spellCheck="false"
                     className="min-h-[18rem] w-full resize-none rounded-2xl border border-slate-700/70 bg-[#0a1020] p-4 font-mono text-sm leading-7 text-slate-100 outline-none placeholder:text-slate-500 transition duration-200 focus:border-sky-400/50 focus:ring-4 focus:ring-sky-500/10 sm:min-h-[22rem] lg:min-h-[26rem]"
                   />
@@ -195,9 +302,9 @@ export default function App() {
                   <div className="mt-4 flex flex-col gap-2 text-sm text-slate-400 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
                     <div className="flex min-w-0 items-center gap-2">
                       <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(74,222,128,0.8)]" />
-                      <span>{loading ? 'Review in progress...' : 'Ready to review your code'}</span>
+                      <span>{loading ? t.loading : t.ready}</span>
                     </div>
-                    <span>{code.length} characters</span>
+                    <span>{code.length} {t.codeCountSuffix}</span>
                   </div>
 
                   <button
@@ -207,7 +314,7 @@ export default function App() {
                     className="mt-4 inline-flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-sky-500 via-indigo-500 to-violet-600 px-6 py-3.5 text-sm font-semibold text-white shadow-[0_14px_36px_rgba(79,70,229,0.28)] transition duration-200 hover:scale-[1.01] hover:brightness-110 hover:shadow-[0_18px_44px_rgba(79,70,229,0.35)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-60"
                   >
                     {loading ? <Spinner /> : null}
-                    {loading ? 'Reviewing...' : 'Review Code'}
+                    {loading ? t.loading : t.review}
                   </button>
                 </section>
 
@@ -217,7 +324,7 @@ export default function App() {
                       <span className="flex h-8 w-8 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-violet-200">
                         <SparkleIcon />
                       </span>
-                      <h3 className="text-base font-semibold text-white">AI Review</h3>
+                      <h3 className="text-base font-semibold text-white">{t.aiReview}</h3>
                     </div>
 
                     <button
@@ -228,7 +335,7 @@ export default function App() {
                       }}
                       className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-slate-300 transition hover:border-white/20 hover:bg-white/10"
                     >
-                      Clear Review
+                        {t.clear}
                     </button>
                   </div>
 
@@ -240,17 +347,15 @@ export default function App() {
                         <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-violet-400/20 bg-violet-400/10 text-violet-200 shadow-[0_0_30px_rgba(168,85,247,0.18)]">
                           <SparkleIcon className="h-7 w-7" />
                         </div>
-                        <h4 className="mt-4 text-base font-semibold text-white">Your AI review will appear here</h4>
-                        <p className="mt-2 max-w-md text-sm leading-6 text-slate-400">
-                          Paste your code above and click Review Code to get started.
-                        </p>
+                        <h4 className="mt-4 text-base font-semibold text-white">{t.emptyTitle}</h4>
+                        <p className="mt-2 max-w-md text-sm leading-6 text-slate-400">{t.emptyBody}</p>
                       </div>
                     ) : null}
 
                     {!error && review ? (
                       <div className="space-y-3">
                         {parsedSections.map((section) => (
-                          <ReviewSectionCard key={section.title} title={section.title} body={section.body} />
+                          <ReviewSectionCard key={section.title} title={section.title} body={section.body} t={t} />
                         ))}
                       </div>
                     ) : null}
@@ -288,10 +393,21 @@ function SparkleIcon({ className = 'h-4 w-4' }) {
   );
 }
 
-function ReviewSectionCard({ title, body }) {
+function ReviewSectionCard({ title, body, t }) {
+  const sectionTitles = {
+    Correctness: t.sectionCorrectness,
+    Security: t.sectionSecurity,
+    Performance: t.sectionPerformance,
+    Maintainability: t.sectionImprovements,
+    'Concrete Fixes': t.sectionSuggestedFix,
+    Summary: t.sectionSummary
+  };
+
+  const displayTitle = sectionTitles[title] || title;
+
   return (
     <section className="w-full min-w-0 rounded-2xl border border-white/10 bg-white/5 p-4 shadow-[0_12px_30px_rgba(0,0,0,0.18)] transition duration-200 hover:-translate-y-0.5 hover:border-white/15 hover:bg-white/6 hover:shadow-[0_16px_36px_rgba(0,0,0,0.24)] animate-[fadeIn_240ms_ease-out]">
-      <h3 className="text-base font-semibold tracking-tight text-white sm:text-lg">{title}</h3>
+      <h3 className="text-base font-semibold tracking-tight text-white sm:text-lg">{displayTitle}</h3>
 
       {body.trim() ? (
         <div className="mt-3 space-y-3 text-sm leading-7 text-slate-300">
@@ -334,13 +450,11 @@ function ReviewSectionCard({ title, body }) {
           )}
         </div>
       ) : (
-        <p className="mt-3 text-sm leading-7 text-slate-400">No details were provided for this section.</p>
+        <p className="mt-3 text-sm leading-7 text-slate-400">{t.noDetails}</p>
       )}
     </section>
   );
 }
-
-
 function parseSections(text) {
   const source = text.trim();
 
@@ -386,13 +500,18 @@ function parseSections(text) {
 
   const ordered = sectionDefinitions
     .map((section) => sectionsByTitle.get(section.title))
-    .filter((section) => section && section.body.trim());
+    .filter((section) => section && section.body.trim())
+    .map((section) => ({
+      title: section.title,
+      displayTitle: section.title,
+      body: section.body
+    }));
 
   if (ordered.length) {
     return ordered;
   }
 
-  return [{ title: 'Summary', body: source }];
+  return [{ title: 'Summary', displayTitle: 'Summary', body: source }];
 }
 
 function matchSectionTitle(line) {
@@ -499,6 +618,4 @@ function looksLikeCode(text) {
   return score >= Math.max(1, Math.ceil(lines.length / 2));
 }
 
-const editorPlaceholder = `function calculateTotal(items) {
-  return items.reduce((sum, item) => sum + item.price, 0);
-}`;
+const editorPlaceholder = 'hot el code mteek hne';

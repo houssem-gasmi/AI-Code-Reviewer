@@ -1,4 +1,4 @@
-# AI Code Reviewer
+# Codini
 
 A React + Node.js + Express app that sends pasted code to the Hugging Face Inference API using Qwen/Qwen2.5-Coder-7B-Instruct and shows the review in the browser.
 

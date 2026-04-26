@@ -29,10 +29,17 @@ app.post('/api/review', async (req, res) => {
       return res.status(500).json({ error: 'HUGGINGFACE_API_KEY is not configured.' });
     }
 
+    const responseLanguage = uiLang === 'tn'
+      ? 'Tunisian Derja'
+      : uiLang === 'fr'
+        ? 'French'
+        : 'English';
+
     const prompt = [
       'You are a Principal Engineer at a top-tier tech company such as Google or Meta.',
       'Be strict, critical, and precise.',
       `This is a ${language || 'unknown'} code.`,
+      `Respond in ${responseLanguage}.`,
       'Review the code below with a production mindset.',
       'Find bugs, security issues, performance problems, and design flaws.',
       'Suggest concrete improvements, refactoring opportunities, and safer patterns.',
