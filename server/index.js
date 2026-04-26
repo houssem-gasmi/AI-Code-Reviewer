@@ -18,7 +18,7 @@ app.use(express.json({ limit: '1mb' }));
 
 app.post('/api/review', async (req, res) => {
   try {
-    const { code, language } = req.body ?? {};
+    const { code, language, uiLang } = req.body ?? {};
 
     if (!code || typeof code !== 'string' || !code.trim()) {
       return res.status(400).json({ error: 'Code is required.' });
