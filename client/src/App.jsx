@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import logo from '../assets/logo.png';
 
+// UI text is centralized here so the whole app can switch between Tunisian Derja, English, and French.
 const translations = {
   tn: {
     review: 'raja3 el code',
@@ -112,6 +113,7 @@ const translations = {
 };
 
 const features = [
+  // These cards explain the three main promises of the app shown in the left panel.
   { titleKey: 'feature1Title', descriptionKey: 'feature1Description', tone: 'from-cyan-400/25 to-sky-500/25', icon: (
     <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.9">
       <path d="M9 10a3 3 0 0 1 6 0v3.5a3 3 0 1 1-6 0V10Z" />
@@ -136,6 +138,7 @@ const features = [
 const languageOptions = ['JavaScript', 'Python', 'HTML/CSS', 'Java', 'C++'];
 
 const sectionDefinitions = [
+  // These headings help the app recognize the structure returned by the AI.
   { title: 'Correctness', aliases: ['Correctness', 'Bugs', 'Bug', 'Review of Code'] },
   { title: 'Security', aliases: ['Security'] },
   { title: 'Performance', aliases: ['Performance'] },
@@ -145,6 +148,7 @@ const sectionDefinitions = [
 ];
 
 export default function App() {
+  // Local state keeps the editor content, selected languages, and the current AI review.
   const [code, setCode] = useState('function add(a, b) {\n  return a + b;\n}');
   const [language, setLanguage] = useState('JavaScript');
   const [uiLang, setUiLang] = useState('tn');
@@ -154,6 +158,7 @@ export default function App() {
   const parsedSections = parseSections(review);
   const t = translations[uiLang] || translations.en;
 
+  // When the user clicks the button, the app sends the code and both language choices to the backend.
   async function handleReview() {
     setLoading(true);
     setError('');
@@ -187,6 +192,7 @@ export default function App() {
       <div className="mx-auto w-full max-w-7xl">
         <section className="w-full min-w-0 rounded-2xl border border-blue-500/20 bg-gradient-to-br from-slate-950 via-slate-950 to-slate-900 shadow-[0_28px_90px_rgba(0,0,0,0.55)]">
           <div className="rounded-2xl border border-violet-500/10 bg-[radial-gradient(circle_at_top_left,rgba(59,130,246,0.10),transparent_28%),radial-gradient(circle_at_top_right,rgba(168,85,247,0.10),transparent_26%)] p-4 sm:p-5 lg:p-6">
+            {/* Header: brand, logo, model badge, and UI language selector. */}
             <header className="mb-4 flex flex-col gap-4 border-b border-white/8 pb-4 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-center gap-3">
                 <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-sky-400/35 bg-sky-400/15 shadow-[0_0_32px_rgba(59,130,246,0.22)] sm:h-18 sm:w-18">
@@ -221,6 +227,7 @@ export default function App() {
             </header>
 
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+              {/* Left column: project story, app features, and project metadata. */}
               <aside className="min-w-0 rounded-2xl border border-white/10 bg-white/5 p-5 shadow-xl shadow-black/20 backdrop-blur-xl">
                 <div className="flex flex-col gap-4">
                   <div>
@@ -247,6 +254,7 @@ export default function App() {
                     ))}
                   </div>
 
+                  {/* This small box tells the user what stack and model the app uses. */}
                   <div className="mt-1 rounded-2xl border border-sky-400/15 bg-slate-950/45 p-4 shadow-inner shadow-black/20 transition duration-200 hover:border-sky-400/25 hover:bg-slate-950/55 hover:shadow-lg hover:shadow-sky-950/20 lg:mt-auto">
                     <div className="mb-3 flex items-center justify-between">
                       <h3 className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">{t.project}</h3>
@@ -270,6 +278,7 @@ export default function App() {
                 </div>
               </aside>
 
+              {/* Right column: editor, submit button, and the rendered AI review. */}
               <div className="min-w-0 space-y-4">
                 <section className="w-full min-w-0 rounded-2xl border border-white/10 bg-white/5 p-5 shadow-xl shadow-black/20 backdrop-blur-xl transition duration-200 hover:-translate-y-0.5 hover:border-white/15 hover:bg-white/6 hover:shadow-2xl hover:shadow-black/30">
                   <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -281,6 +290,7 @@ export default function App() {
                       onChange={(event) => setLanguage(event.target.value)}
                       className="w-full rounded-full border border-white/10 bg-slate-950/55 px-3 py-2 text-xs font-medium text-slate-200 outline-none transition duration-200 hover:border-white/20 focus:border-sky-400/50 sm:w-auto sm:py-1"
                     >
+                      {/* The code language helps the model understand syntax and context better. */}
                       {languageOptions.map((option) => (
                         <option key={option} value={option} className="bg-slate-950 text-slate-100">
                           {option}
@@ -299,6 +309,7 @@ export default function App() {
                     className="min-h-[18rem] w-full resize-none rounded-2xl border border-slate-700/70 bg-[#0a1020] p-4 font-mono text-sm leading-7 text-slate-100 outline-none placeholder:text-slate-500 transition duration-200 focus:border-sky-400/50 focus:ring-4 focus:ring-sky-500/10 sm:min-h-[22rem] lg:min-h-[26rem]"
                   />
 
+                  {/* Small helper line showing the current state of the review request. */}
                   <div className="mt-4 flex flex-col gap-2 text-sm text-slate-400 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
                     <div className="flex min-w-0 items-center gap-2">
                       <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(74,222,128,0.8)]" />
@@ -319,6 +330,7 @@ export default function App() {
                 </section>
 
                 <section className="w-full min-w-0 rounded-2xl border border-white/10 bg-white/5 p-5 shadow-xl shadow-black/20 backdrop-blur-xl transition duration-200 hover:-translate-y-0.5 hover:border-white/15 hover:bg-white/6 hover:shadow-2xl hover:shadow-black/30">
+                  {/* The output panel shows the AI review in a clean, scrollable card. */}
                   <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div className="flex items-center gap-2">
                       <span className="flex h-8 w-8 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-violet-200">
@@ -374,16 +386,6 @@ function Spinner() {
   return <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />;
 }
 
-function CodeIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.9">
-      <path d="m8 9-3 3 3 3" />
-      <path d="m16 9 3 3-3 3" />
-      <path d="m14 7-4 10" />
-    </svg>
-  );
-}
-
 function SparkleIcon({ className = 'h-4 w-4' }) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1.9">
@@ -393,6 +395,7 @@ function SparkleIcon({ className = 'h-4 w-4' }) {
   );
 }
 
+// Each review section is rendered as its own card so the AI output stays easy to scan.
 function ReviewSectionCard({ title, body, t }) {
   const sectionTitles = {
     Correctness: t.sectionCorrectness,
@@ -462,6 +465,7 @@ function parseSections(text) {
     return [];
   }
 
+  // Split the markdown response into named sections based on headings.
   const rawSections = [];
   let current = null;
 
@@ -531,6 +535,7 @@ function matchSectionTitle(line) {
 }
 
 function renderSectionContent(body) {
+  // This keeps code blocks separate from normal text so Markdown renders cleanly.
   const blocks = [];
   const lines = body.split(/\r?\n/);
   let index = 0;
@@ -593,6 +598,7 @@ function renderSectionContent(body) {
 }
 
 function looksLikeCode(text) {
+  // A quick heuristic is enough to detect code-like paragraphs inside the AI response.
   const lines = text.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
 
   if (!lines.length) {

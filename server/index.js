@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url';
 
 dotenv.config();
 
+// The server handles the API and, in production, also serves the built React app.
 const app = express();
 const port = process.env.PORT || 5000;
 const __filename = fileURLToPath(import.meta.url);
@@ -16,6 +17,7 @@ const clientDistPath = path.resolve(__dirname, '..', 'client', 'dist');
 app.use(cors());
 app.use(express.json({ limit: '1mb' }));
 
+// Main review endpoint: it validates input, calls Hugging Face, and returns the AI review.
 app.post('/api/review', async (req, res) => {
   try {
     const { code, language, uiLang } = req.body ?? {};
@@ -29,12 +31,14 @@ app.post('/api/review', async (req, res) => {
       return res.status(500).json({ error: 'HUGGINGFACE_API_KEY is not configured.' });
     }
 
+    // UI language controls the language of the final explanation returned by the model.
     const responseLanguage = uiLang === 'tn'
       ? 'Tunisian Derja'
       : uiLang === 'fr'
         ? 'French'
         : 'English';
 
+    // This prompt tells the model how to behave and which markdown sections to use.
     const prompt = [
       'You are a Principal Engineer at a top-tier tech company such as Google or Meta.',
       'Be strict, critical, and precise.',
@@ -109,21 +113,25 @@ app.post('/api/review', async (req, res) => {
 });
 
 if (process.env.NODE_ENV === 'production' && fsExists(clientDistPath)) {
+  // In production, Express serves the React build so Render can run one service only.
   app.use(express.static(clientDistPath));
   app.get('*', (_req, res) => {
     res.sendFile(path.join(clientDistPath, 'index.html'));
   });
 }
 
+// The server listens on Render's port, or 5000 locally if no port is provided.
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
 
 function fsExists(targetPath) {
+  // Small helper so production static serving only runs when the build folder exists.
   return fs.existsSync(targetPath);
 }
 
 function parseMaybeJson(value) {
+  // Hugging Face sometimes returns plain text errors, so we safely try JSON first.
   try {
     return JSON.parse(value);
   } catch {
