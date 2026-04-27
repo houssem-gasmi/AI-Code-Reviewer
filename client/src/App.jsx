@@ -8,7 +8,7 @@ const translations = {
   tn: {
     review: 'raja3 el code',
     paste: 'hot el code mteek hne',
-    ready: 'wajeh bash nraja3ou el code',
+    ready: '7adher bash nraja3ou el code',
     clear: 'na7i el review',
     project: 'ma3loumet el project',
     editor: 'code editor',
